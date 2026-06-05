@@ -24,7 +24,7 @@ import java.util.List;
 
 @Service
 public class DocumentService {
-    @Value("${spring.ai.google.genai.api-key}")
+    @Value("${gemini.api.key}")
     private String apiKey;
     @Autowired
     DocumentRepository documentRepository;
