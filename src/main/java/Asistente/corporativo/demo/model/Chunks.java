@@ -2,12 +2,13 @@ package Asistente.corporativo.demo.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.extern.java.Log;
 
 @Entity
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Chunks {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

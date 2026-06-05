@@ -26,4 +26,8 @@ public class DocumentController {
     public ResponseEntity<String> upload(@RequestParam("file") MultipartFile file) throws IOException {
         return ResponseEntity.ok(documentService.processaPdf(file));
     }
+    @PostMapping("/pergunta")
+    public ResponseEntity<String> pergunta(@RequestBody String pergunta) {
+        return ResponseEntity.ok(documentService.responder(pergunta));
+    }
 }
