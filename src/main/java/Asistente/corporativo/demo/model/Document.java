@@ -1,15 +1,12 @@
 package Asistente.corporativo.demo.model;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.mockito.internal.stubbing.answers.ThrowsExceptionForClassType;
-import org.w3c.dom.Text;
-
 import java.time.LocalDateTime;
 
 @Entity
-
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Document {

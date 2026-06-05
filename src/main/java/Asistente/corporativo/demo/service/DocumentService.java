@@ -1,26 +1,21 @@
 package Asistente.corporativo.demo.service;
-
 import Asistente.corporativo.demo.model.Chunks;
 import Asistente.corporativo.demo.model.Document;
 import Asistente.corporativo.demo.repository.ChunksRepository;
 import Asistente.corporativo.demo.repository.DocumentRepository;
 import org.apache.pdfbox.Loader;
-import org.apache.pdfbox.cos.COSDocument;
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.interactive.annotation.handlers.PDAbstractAppearanceHandler;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DocumentService {
@@ -31,8 +26,13 @@ public class DocumentService {
     @Autowired
     ChunksRepository chunksRepository;
 
-    public List<Document> listarTodos() {
-        return documentRepository.findAll();
+    public List<String> listarTodos() {
+        List<String> nomes =  new ArrayList<>();
+        for(Document document : documentRepository.findAll()) {
+            nomes.add(document.getNome());
+        }
+
+        return nomes;
     }
 
     public String processaPdf(MultipartFile file) throws IOException {
@@ -59,8 +59,15 @@ public class DocumentService {
         }
     }
 
-    public String responder(String pergunta){
-        List<Chunks> chunks = chunksRepository.findAll();
+    public String responder(String nomeDocumento, String pergunta){
+        Optional<Document> document = documentRepository.findByNome(nomeDocumento);
+        System.out.println("Buscando documento: " + nomeDocumento);
+        System.out.println("Encontrado: " + document.isPresent());
+        if(document.isEmpty()) {
+            return "documento não encontrado!!";
+        }
+
+        List<Chunks> chunks = chunksRepository.findByDocument(document.get());
         StringBuilder contexto = new StringBuilder();
 
         for(Chunks   chunk : chunks){

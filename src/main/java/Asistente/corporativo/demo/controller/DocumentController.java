@@ -1,6 +1,5 @@
 package Asistente.corporativo.demo.controller;
-
-import Asistente.corporativo.demo.model.Document;
+import Asistente.corporativo.demo.model.PerguntaRequest;
 import Asistente.corporativo.demo.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +16,8 @@ public class DocumentController {
     @Autowired
     DocumentService documentService;
 
-    @GetMapping
-    public List<Document> listarTodos() {
+    @GetMapping("/files")
+    public List<String> listarTodos() {
         return documentService.listarTodos();
         
     }
@@ -27,7 +26,7 @@ public class DocumentController {
         return ResponseEntity.ok(documentService.processaPdf(file));
     }
     @PostMapping("/pergunta")
-    public ResponseEntity<String> pergunta(@RequestBody String pergunta) {
-        return ResponseEntity.ok(documentService.responder(pergunta));
+    public ResponseEntity<String> pergunta(@RequestBody PerguntaRequest request) {
+        return ResponseEntity.ok(documentService.responder(request.getNomeDocumento(),  request.getPergunta()));
     }
 }
